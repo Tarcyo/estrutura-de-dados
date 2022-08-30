@@ -1,0 +1,3 @@
+Alaerson 1000 26
+Fernando 2000 78
+Bernardo 3000 100
