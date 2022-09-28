@@ -1,19 +1,54 @@
 class No(object):
-    #contrutor
+
+
+    
+    #Contrutor:
     def __init__(self,dado,proximo=None):
 
         self.dado=dado
         self.proximo=proximo
 
-    #Printando;
-    def printa(self):
-        copia=self
 
+
+
+
+
+
+
+
+
+
+
+    #Printando:
+    def __str__(self):
+        copia=self
+        texto="["
     
         while(copia!=None):
-            print(copia.dado)
+            if(copia.proximo==None):
+
+                texto=texto+str(copia.dado)
+
+                
+                
+            else:
+                
+                texto=texto+str(copia.dado)+","
+                
+                
+                
             copia=copia.proximo
+
+        texto=texto+"]"   
+        return texto
+
+
+
+
             
+
+
+
     #Pesquisando pelo valor:
     def pesquisaPeloValor(self, valor):
         
@@ -28,8 +63,14 @@ class No(object):
         else:
             print("O valor "+str(valor)+" NÃO foi encontrado!")
 
+
+
+
         
-    #Pesquisando pelo valor:
+
+
+
+    #Pesquisando pelo index:
     def __getitem__(self,index):
         
          if index<0:
@@ -54,6 +95,11 @@ class No(object):
     
 
 
+
+
+
+
+
     #Substituindo pelo valor:
     def substituiPeloValor(self,valorAntigo,valorNovo):
         copia=self
@@ -66,12 +112,25 @@ class No(object):
             copia.dado=valorNovo
             return True
         else:
-            return False
+
+          return False
+
+
+
+
+
+
+
+
 
     #Substituindo pelo index:
     def __setitem__(self,index,valor):
          if index<0:
              print("a posição "+str(index)+" não exite!")
+
+
+
+
              return None
 
              
@@ -91,73 +150,166 @@ class No(object):
 
 
 
+
+
+
+
     #Inserindo no incio:
     def insereNoInicio(self,valor):
-        self=No(valor,self)
-        return self
+        self.proximo=No(self.dado,self.proximo)
+        self.dado=valor
+        
+            
 
+
+
+
+     
+        
 
     #Inserindo no final:
-    def insereNoFinal:
+    def insereNoFinal(self,valor):
+        no=No(valor)
+        if(self is None):
+            self=no
+            return
         
+        copia=self
+        while(copia.proximo!=None):
+            copia=copia.proximo
         
-        
-        
-        
-       
-        
-        
-        
-            
-   
-                
-        
-        
-    
-     
-    
-            
-                
-            
-        
-         
-         
-         
-        
-            
-                
-            
-            
-        
+        copia.proximo=no
 
 
+
+
+    #Inserindo em qualquer posição:
+    def insereEmQualquerPosicao(self,valor,index):
+         if index<0:
+             print("a posição "+str(index)+" não exite!")
+             return None
+
+             
+         copia=self
+         i=index
+         while i>1:
+             copia=copia.proximo
+             i=i-1
+             if(copia==None):
+                 print("a posição "+str(index)+" não exite!")
+                 return None
+
+
+         copia.proximo=No(valor,copia.proximo)
+
+
+
+
+
+
+
+
+    #Removendo no inicio:
+    def removeNoInicio(self):
+        if(self.proximo==None):
+            retorno=self.dado
+            self.dado=None
+            return retorno
+        else:
+            removido=self.dado
+            self.dado=self.proximo.dado
+            self.proximo=self.proximo.proximo
+            return removido
+
+
+
+
+
+
+
+
+
+        
+    #Removendo no final:
+    def removeNoFinal(self):
+        removido=self.dado
+        if(self.proximo is None):
+            self.dado=None
+            
+        else:
+            copia=self
+            while(copia.proximo.proximo!=None):
+                copia=copia.proximo
+            removido=copia.proximo.dado
+            copia.proximo=None
+            
+        return removido
+            
+
+
+
+
+
+
+            
+        
+    #Removendo em qualquer posição:
+    def removeEmQualquerPosicao(self,index):
+        if index<0:
+            print("a posição "+str(index)+" não exite!")
+            return None
+
+                 
+        copia=self
+        i=index
+             
+        while i>1:
+            copia=copia.proximo
+            i=i-1
+            if(copia==None):
+                print("a posição "+str(index)+" não exite!")
+                return None
+
+             
+        removido = copia.proximo.dado
+        copia.proximo=copia.proximo.proximo
+        return removido
+
+         
+         
+
+        
+            
     pass
 
     
 def main():
-    
     extrutura=No(0)
-    print("Inserindo valores do inicio:")
-    for i in range(1,10):
-       extrutura=extrutura.insereNoInicio(i)
-        
-    print("Os valores da extrutura são:")
-    extrutura.printa()
-    print("Procurando o valor 5 na extrutura: ")
-    extrutura.pesquisaPeloValor(5)
-    print("Procurando o valor 20 na extrutura: ")
-    extrutura.pesquisaPeloValor(20)
-    print("Buscando posicão numero 2 da extrutura: ",extrutura[2])
-    print("Tentando substituir o valor 2 por 333 o programa retorna:",extrutura.substituiPeloValor(2,333))
-    print("Tentando substituir o valor 20 por 3 o programa retorna:",extrutura.substituiPeloValor(20,333))
-    print("Substituindo o valor da posicao 0 por 66:")
-    extrutura[0]=66
-    print("Após as substituições a extrutura fica:")
-    extrutura.printa()
-    
-        
-        
+    print("A estrutura inicialmente é: ",extrutura)
+    for i in range(1,11):
+        extrutura.insereNoInicio(i)
 
+    
+    print("Após inserir numeros no inicio a estrutura fica: ",extrutura)
+    print("pesquisando o valor 5 ele retona: ")
+    extrutura.pesquisaPeloValor(5)
+    print("pesquisando o valor 20 ele retona: ")
+    extrutura.pesquisaPeloValor(20)
+    print("buscando a posicão 4 da extrutura: ",extrutura[4])
+    print("buscando a posicão 30 da extrutura(Não existe): ")
+    print(extrutura[30])
+    extrutura.substituiPeloValor(3,450)
+    print("susbstituindo o valor 3 por 450 na extrutura: ",extrutura)
+    extrutura[6]=78
+    print("susbstituindo a posição 6 por 78: ",extrutura)
+    extrutura.insereNoFinal(360)
+    print("inserindo o valor 360 no final da extrutura ",extrutura)
+    extrutura.removeEmQualquerPosicao(1)
+    print("removendo a posição 1 da extrura: ",extrutura)
+    extrutura.removeNoInicio()
+    extrutura.removeNoFinal()
+    print("Após remover os itens do inicio e do final a extrutura fica: ",extrutura)
+    
     
     
     
